@@ -387,13 +387,93 @@
     .mobile-menu .close { position: absolute; top: 24px; right: 26px; background: none; border: none; color: var(--ink); font-size: 2rem; cursor: pointer; line-height: 1; }
 
     /* ── Scroll reveal ── */
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
-    .reveal.in { opacity: 1; transform: none; }
+    .reveal { opacity: 0; transform: translateY(24px); filter: blur(6px); transition: opacity .75s var(--ease), transform .75s var(--ease), filter .75s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; filter: blur(0); }
     .reveal[data-delay="1"] { transition-delay: .07s; }
     .reveal[data-delay="2"] { transition-delay: .14s; }
     .reveal[data-delay="3"] { transition-delay: .21s; }
     .reveal[data-delay="4"] { transition-delay: .28s; }
     .reveal[data-delay="5"] { transition-delay: .35s; }
+
+    /* ═══════════ Premium motion & interaction layer ═══════════ */
+
+    /* Extra reveal delays + directional variants */
+    .reveal[data-delay="6"] { transition-delay: .42s; }
+    .reveal[data-delay="7"] { transition-delay: .49s; }
+    .reveal[data-delay="8"] { transition-delay: .56s; }
+    .reveal.from-l { transform: translateX(-32px); }
+    .reveal.from-r { transform: translateX(32px); }
+    .reveal.from-l.in, .reveal.from-r.in { transform: none; }
+
+    /* Pointer spotlight — a soft purple sheen that tracks the cursor across cards */
+    .track-card, .reason-card, .audience-card, .prize-card, .org-card, .sponsor-box { position: relative; }
+    .track-card::before, .reason-card::before, .audience-card::before,
+    .prize-card::before, .org-card::before, .sponsor-box::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: 3; pointer-events: none;
+      background: radial-gradient(circle 180px at var(--mx, 50%) var(--my, 50%), rgba(124,58,237,.11), transparent 60%);
+      opacity: 0; transition: opacity .4s var(--ease);
+    }
+    .track-card:hover::before, .reason-card:hover::before, .audience-card:hover::before,
+    .prize-card:hover::before, .org-card:hover::before, .sponsor-box:hover::before { opacity: 1; }
+
+    /* Primary button — light sweep on hover */
+    .btn-primary { position: relative; overflow: hidden; }
+    .btn-primary .arrow { position: relative; z-index: 1; }
+    .btn-primary::after {
+      content: ''; position: absolute; top: 0; left: -130%; width: 55%; height: 100%; z-index: 0;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,.38), transparent);
+      transform: skewX(-18deg); transition: left .6s var(--ease); pointer-events: none;
+    }
+    .btn-primary:hover::after { left: 150%; }
+
+    /* Schedule — interactive day filter */
+    .sched-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .sched-tab {
+      font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: .74rem; font-weight: 500; letter-spacing: .01em;
+      padding: 9px 17px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--muted);
+      cursor: pointer; transition: color .25s, border-color .25s, background .25s, box-shadow .25s, transform .2s var(--ease);
+    }
+    .sched-tab:hover { color: var(--ink); border-color: var(--line-2); transform: translateY(-1px); }
+    .sched-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 10px 22px -12px rgba(109,40,217,.8); }
+    .sched-grid.filtered { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    .sched-col.hide { display: none; }
+    .sched-col.show-anim { animation: schedColIn .5s var(--ease) both; }
+    @keyframes schedColIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+    /* Schedule — staggered "printout" of each day's items + row hover */
+    .sched-col.items-in .sched-item { animation: schedItemIn .5s var(--ease) both; animation-delay: var(--d, 0s); }
+    @keyframes schedItemIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+    .sched-item { transition: background .25s; border-radius: 6px; }
+    .sched-item:not(.win):hover { background: var(--paper-2); }
+
+    /* Live vitals monitor (hero) */
+    .monitor .panel-top { margin-bottom: 2px; }
+    .mon-status { font-size: .6rem; font-weight: 600; letter-spacing: .07em; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; text-transform: uppercase; }
+    .mon-status .d { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 1.4s ease-out infinite; }
+    .mon-screen { position: relative; height: 92px; margin-top: 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; background: linear-gradient(180deg, #fff, var(--paper-2)); animation: monGlow 1.05s ease-in-out infinite; }
+    .mon-screen::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .6;
+      background: linear-gradient(90deg, rgba(109,40,217,.05) 1px, transparent 1px) 0 0 / 22px 22px,
+                  linear-gradient(rgba(109,40,217,.05) 1px, transparent 1px) 0 0 / 22px 22px;
+    }
+    @keyframes monGlow { 0%, 100% { box-shadow: inset 0 -12px 24px -18px rgba(109,40,217,.55); } 50% { box-shadow: inset 0 -12px 24px -10px rgba(109,40,217,.95); } }
+    .mon-ecg { position: absolute; inset: 0; width: 200%; height: 100%; display: block; z-index: 2; animation: monScroll 5s linear infinite; }
+    .mon-trace { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
+    @keyframes monScroll { to { transform: translateX(-50%); } }
+    .vitals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+    .vital { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 9px 11px; background: var(--paper); }
+    .vital .vlabel { display: block; font-size: .55rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    .vital .vval { font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em; color: var(--ink); font-variant-numeric: tabular-nums; transition: color .25s, transform .25s var(--ease); display: inline-block; margin-top: 3px; }
+    .vital .vval.flash { color: var(--accent); transform: translateY(-1px); }
+    .vital .vunit { font-size: .56rem; color: var(--faint); margin-left: 3px; font-weight: 500; }
+
+    /* Respect reduced-motion for the new layer */
+    @media (prefers-reduced-motion: reduce) {
+      .mon-ecg, .mon-screen { animation: none !important; }
+      .btn-primary::after { display: none; }
+      .sched-col.items-in .sched-item, .sched-col.show-anim { animation: none !important; }
+      .mon-status .d { animation: none !important; }
+    }
 
     /* ── Responsive ── */
     @media (max-width: 1000px) {
@@ -426,7 +506,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
-      .reveal { opacity: 1; transform: none; }
+      .reveal { opacity: 1; transform: none; filter: none; }
       .marquee__group { animation-duration: var(--dur, 36s) !important; animation-iteration-count: infinite !important; }
       .ecg-panel path, .final-ecg path { animation: none; stroke-dashoffset: 0; }
       .faq-item::details-content { transition-duration: .5s !important; }
@@ -503,9 +583,16 @@
         <div><div class="tag mono">Prize pool</div><div class="amt mono">$15K+</div></div>
         <div class="d">OpenAI credits for top 3 · ChatGPT Pro for top 5</div>
       </div>
-      <div class="panel ecg-panel reveal" data-delay="4">
-        <div class="panel-top"><span class="tag mono">AI Hospital · live vitals</span></div>
-        <svg viewBox="0 0 320 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0,20 L70,20 L80,20 L88,7 L98,33 L108,20 L150,20 L200,20 L210,20 L218,7 L228,33 L238,20 L320,20"/></svg>
+      <div class="panel monitor reveal" data-delay="4">
+        <div class="panel-top"><span class="tag mono">AI Hospital · live vitals</span><span class="mon-status mono"><span class="d"></span>Monitoring</span></div>
+        <div class="mon-screen">
+          <svg class="mon-ecg" viewBox="0 0 2400 120" preserveAspectRatio="none" aria-hidden="true"><path class="mon-trace" d="M0,60"/></svg>
+        </div>
+        <div class="vitals">
+          <div class="vital"><span class="vlabel">HR</span><span class="vval mono" id="v-hr">72</span><span class="vunit mono">bpm</span></div>
+          <div class="vital"><span class="vlabel">SpO₂</span><span class="vval mono" id="v-spo2">98</span><span class="vunit mono">%</span></div>
+          <div class="vital"><span class="vlabel">BP</span><span class="vval mono" id="v-bp">118/76</span><span class="vunit mono">mmHg</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -584,8 +671,14 @@
       <span class="sec-num mono">03 <span class="sl">/</span> Run of show</span>
       <h2 class="section-title">The <span class="g">weekend.</span></h2>
     </div>
+    <div class="sched-tabs reveal" role="tablist" aria-label="Filter schedule by day">
+      <button type="button" class="sched-tab active" data-day="all">All</button>
+      <button type="button" class="sched-tab" data-day="fri">Fri 17 · Pre-Hack</button>
+      <button type="button" class="sched-tab" data-day="sat">Sat 18 · Day 1</button>
+      <button type="button" class="sched-tab" data-day="sun">Sun 19 · Day 2 + Pitch</button>
+    </div>
     <div class="sched-grid">
-      <div class="sched-col reveal">
+      <div class="sched-col reveal" data-day="fri">
         <h3>Pre-Hack Networking</h3>
         <div class="when">Friday, 17 July</div>
         <div class="where"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>Arrayah Hacker House, Drummoyne</div>
@@ -594,7 +687,7 @@
         <div style="margin-top:14px"><span class="pill">Optional · $5 ticket</span></div>
       </div>
 
-      <div class="sched-col reveal" data-delay="1">
+      <div class="sched-col reveal" data-delay="1" data-day="sat">
         <h3>Hackathon — Day 1</h3>
         <div class="when">Saturday, 18 July</div>
         <div class="where"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>Stone &amp; Chalk Tech Central</div>
@@ -612,7 +705,7 @@
         <div class="sched-item"><div class="tm mono">8:45 PM</div><div class="ev">Day 1 wraps up</div></div>
       </div>
 
-      <div class="sched-col reveal" data-delay="2">
+      <div class="sched-col reveal" data-delay="2" data-day="sun">
         <h3>Hackathon — Day 2</h3>
         <div class="when">Sunday, 19 July</div>
         <div class="where"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>Stone &amp; Chalk Tech Central</div>
@@ -627,7 +720,7 @@
         <div class="sched-item"><div class="tm mono">5:30 PM</div><div class="ev">Hacking wraps up — Pitch Night begins</div></div>
       </div>
 
-      <div class="sched-col reveal" data-delay="3">
+      <div class="sched-col reveal" data-delay="3" data-day="sun">
         <h3>Pitch Night</h3>
         <div class="when">Sunday, 19 July · Evening</div>
         <div class="where"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>Stone &amp; Chalk Tech Central</div>
@@ -651,9 +744,9 @@
         <h3>The prizes</h3>
       </div>
       <div class="prizes-grid">
-        <div class="prize-card"><div class="rank">2nd place</div><div class="amt mono">$5,000</div><div class="desc">USD in OpenAI API credits</div></div>
-        <div class="prize-card first"><div class="rank">1st place</div><div class="amt mono">$10,000</div><div class="desc">USD in OpenAI API credits</div></div>
-        <div class="prize-card"><div class="rank">3rd place</div><div class="amt mono">$1,000</div><div class="desc">USD in OpenAI API credits</div></div>
+        <div class="prize-card"><div class="rank">2nd place</div><div class="amt mono" data-count="5000" data-prefix="$">$5,000</div><div class="desc">USD in OpenAI API credits</div></div>
+        <div class="prize-card first"><div class="rank">1st place</div><div class="amt mono" data-count="10000" data-prefix="$">$10,000</div><div class="desc">USD in OpenAI API credits</div></div>
+        <div class="prize-card"><div class="rank">3rd place</div><div class="amt mono" data-count="1000" data-prefix="$">$1,000</div><div class="desc">USD in OpenAI API credits</div></div>
       </div>
       <div class="prizes-perk">Plus — the <strong>top 5 teams</strong> each get <strong>ChatGPT Pro, free for a year</strong>.</div>
     </div>
@@ -1054,17 +1147,18 @@
   Object.keys(spyMap).forEach(function (id) { spyObserver.observe(document.getElementById(id)); });
 
   // Stat count-up
+  function fmtNum(n) { return n.toLocaleString('en-US'); }
   function animateCount(el) {
     var target = parseFloat(el.dataset.count);
     var prefix = el.dataset.prefix || '';
     var suffix = el.dataset.suffix || '';
-    if (reduce) { el.textContent = prefix + target + suffix; return; }
+    if (reduce) { el.textContent = prefix + fmtNum(target) + suffix; return; }
     var start = null, dur = 1400;
     function step(ts) {
       if (!start) start = ts;
       var p = Math.min((ts - start) / dur, 1);
       var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = prefix + Math.round(target * eased) + suffix;
+      el.textContent = prefix + fmtNum(Math.round(target * eased)) + suffix;
       if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
@@ -1095,6 +1189,100 @@
   }
   tick();
   setInterval(tick, 1000);
+
+  // ── Live vitals monitor: build a seamless scrolling ECG waveform ──
+  (function () {
+    var path = document.querySelector('.mon-trace');
+    if (!path) return;
+    // One heartbeat spans 200 units on a 2400-wide viewBox (12 beats); the
+    // pattern repeats every 200 so a -50% (1200u) translate loops seamlessly.
+    function beat(x) {
+      return 'L' + (x + 60) + ',60 L' + (x + 74) + ',56 L' + (x + 84) + ',60 L' + (x + 93) + ',60 ' +
+             'L' + (x + 98) + ',66 L' + (x + 102) + ',22 L' + (x + 108) + ',94 L' + (x + 113) + ',60 ' +
+             'L' + (x + 132) + ',60 L' + (x + 152) + ',53 L' + (x + 170) + ',60 L' + (x + 200) + ',60 ';
+    }
+    var d = 'M0,60 ';
+    for (var i = 0; i < 12; i++) { d += beat(i * 200); }
+    path.setAttribute('d', d);
+  })();
+
+  // ── Live vitals: gently drifting readouts ──
+  (function () {
+    var hr = document.getElementById('v-hr'),
+        sp = document.getElementById('v-spo2'),
+        bp = document.getElementById('v-bp');
+    if (!hr || reduce) return;
+    function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function flash(el) { el.classList.add('flash'); setTimeout(function () { el.classList.remove('flash'); }, 500); }
+    setInterval(function () {
+      hr.textContent = rnd(66, 86); flash(hr);
+      sp.textContent = rnd(96, 99); flash(sp);
+      bp.textContent = rnd(112, 124) + '/' + rnd(72, 80); flash(bp);
+    }, 1900);
+  })();
+
+  // ── Schedule: staggered "printout" of each day's items on scroll ──
+  if (!reduce && 'IntersectionObserver' in window) {
+    var schedItemObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var items = e.target.querySelectorAll('.sched-item');
+        for (var i = 0; i < items.length; i++) { items[i].style.setProperty('--d', (i * 0.05) + 's'); }
+        e.target.classList.add('items-in');
+        schedItemObs.unobserve(e.target);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.sched-col').forEach(function (c) { schedItemObs.observe(c); });
+  }
+
+  // ── Schedule: interactive day filter ──
+  (function () {
+    var grid = document.querySelector('.sched-grid');
+    var tabs = [].slice.call(document.querySelectorAll('.sched-tab'));
+    if (!grid || !tabs.length) return;
+    var cols = [].slice.call(grid.querySelectorAll('.sched-col'));
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var day = tab.dataset.day;
+        tabs.forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        if (day === 'all') {
+          grid.classList.remove('filtered');
+          cols.forEach(function (c) { c.classList.remove('hide'); });
+          return;
+        }
+        grid.classList.add('filtered');
+        cols.forEach(function (c) {
+          var match = c.dataset.day === day;
+          c.classList.toggle('hide', !match);
+          if (match && !reduce) { c.classList.remove('show-anim'); void c.offsetWidth; c.classList.add('show-anim'); }
+        });
+      });
+    });
+  })();
+
+  // ── FAQ: single-open accordion behaviour ──
+  (function () {
+    var items = [].slice.call(document.querySelectorAll('.faq-item'));
+    items.forEach(function (item) {
+      item.addEventListener('toggle', function () {
+        if (!item.open) return;
+        items.forEach(function (other) { if (other !== item) other.open = false; });
+      });
+    });
+  })();
+
+  // ── Cards: cursor-following spotlight ──
+  (function () {
+    var cards = document.querySelectorAll('.track-card, .reason-card, .audience-card, .prize-card, .org-card, .sponsor-box');
+    cards.forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  })();
 </script>
 </body>
 </html>
