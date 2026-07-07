@@ -191,9 +191,16 @@
     #cd-secs { transition: opacity .14s ease; }
     #cd-secs.tick { opacity: .5; }
 
-    .prize-panel { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-    .prize-panel .amt { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.02em; color: var(--accent); font-variant-numeric: tabular-nums; }
-    .prize-panel .d { font-size: 0.76rem; color: var(--muted); text-align: right; max-width: 140px; }
+    .prize-panel { display: block; background: linear-gradient(140deg, var(--accent-soft) 0%, #fff 68%); border-color: var(--accent-line); box-shadow: 0 18px 40px -30px rgba(109,40,217,.55); }
+    .prize-panel .prize-top { display: flex; align-items: center; justify-content: space-between; }
+    .prize-panel .trophy { width: 34px; height: 34px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 18px -8px rgba(109,40,217,.8); }
+    .prize-panel .trophy svg { width: 18px; height: 18px; color: #fff; }
+    .prize-panel .amt { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; color: var(--accent); line-height: 1; margin-top: 12px; font-variant-numeric: tabular-nums; }
+    .prize-panel .amt small { font-size: .82rem; font-weight: 600; color: var(--accent-2); margin-left: 5px; letter-spacing: 0; }
+    .prize-breaks { margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
+    .prize-break { display: flex; align-items: center; gap: 9px; font-size: .8rem; color: var(--ink-2); font-weight: 500; }
+    .prize-break .pill-ico { flex-shrink: 0; width: 24px; height: 24px; border-radius: 7px; background: #fff; border: 1px solid var(--accent-line); display: flex; align-items: center; justify-content: center; font-size: .8rem; line-height: 1; }
+    .prize-break b { color: var(--ink); font-weight: 700; }
     .ecg-panel svg { width: 100%; height: 40px; margin-top: 12px; display: block; }
     .ecg-panel path { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ecg-draw 6s linear infinite; }
     @keyframes ecg-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
@@ -298,9 +305,9 @@
 
     /* ── Sponsors ── */
     .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; max-width: 840px; margin: 44px auto 0; }
-    .sponsor-box { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 100px; padding: 24px 22px; border-radius: var(--radius); background: var(--paper); border: 1px solid var(--line); font-weight: 600; font-size: 1.02rem; color: var(--ink-2); transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
-    .sponsor-box:hover { transform: translateY(-4px); border-color: var(--line-2); box-shadow: 0 20px 44px -34px rgba(20,16,40,.4); }
-    .sponsor-box.tba { color: var(--faint); font-style: italic; font-weight: 500; font-size: 0.95rem; }
+    .sponsor-box { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 100px; padding: 24px 22px; border-radius: var(--radius); background: var(--ink); border: 1px solid #23262c; font-weight: 700; font-size: 1.02rem; color: #fff; transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
+    .sponsor-box:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 22px 46px -30px rgba(109,40,217,.6); }
+    .sponsor-box.tba { color: rgba(255,255,255,.5); font-style: normal; font-weight: 700; font-size: 1.02rem; }
     .sponsor-logo { max-height: 56px; max-width: 78%; width: auto; object-fit: contain; display: block; }
     .sponsor-note { text-align: center; margin-top: 34px; color: var(--muted); font-size: 0.9rem; }
     .sponsor-note a { color: var(--accent); font-weight: 600; text-decoration: none; }
@@ -325,11 +332,11 @@
     .faq-item summary { list-style: none; cursor: pointer; padding: 19px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-weight: 600; font-size: 0.96rem; color: var(--ink); }
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item summary .chev { flex-shrink: 0; width: 19px; height: 19px; color: var(--accent); transition: transform .45s var(--ease); }
-    .faq-item[open] summary .chev { transform: rotate(180deg); }
-    .faq-item .answer { padding: 0 22px 20px; color: var(--ink-2); font-size: 0.9rem; }
-    .faq-item .answer strong { color: var(--ink); font-weight: 600; }
-    .faq-item::details-content { block-size: 0; overflow: clip; opacity: 0; transition: block-size .5s var(--ease), opacity .4s var(--ease), content-visibility .5s allow-discrete; }
-    .faq-item[open]::details-content { block-size: auto; opacity: 1; }
+    .faq-item.expanded summary .chev { transform: rotate(180deg); }
+    .faq-item.expanded { border-color: var(--line-2); }
+    .faq-item .answer { overflow: hidden; }
+    .faq-item .answer-inner { padding: 2px 22px 20px; color: var(--ink-2); font-size: 0.9rem; }
+    .faq-item .answer-inner strong { color: var(--ink); font-weight: 600; }
 
     /* ── Organisers ── */
     .org-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -446,33 +453,34 @@
     .sched-item { transition: background .25s; border-radius: 6px; }
     .sched-item:not(.win):hover { background: var(--paper-2); }
 
-    /* Live vitals monitor (hero) */
-    .monitor .panel-top { margin-bottom: 2px; }
-    .mon-status { font-size: .6rem; font-weight: 600; letter-spacing: .07em; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; text-transform: uppercase; }
-    .mon-status .d { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 1.4s ease-out infinite; }
-    .mon-screen { position: relative; height: 92px; margin-top: 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; background: linear-gradient(180deg, #fff, var(--paper-2)); animation: monGlow 1.05s ease-in-out infinite; }
-    .mon-screen::before {
-      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .6;
-      background: linear-gradient(90deg, rgba(109,40,217,.05) 1px, transparent 1px) 0 0 / 22px 22px,
-                  linear-gradient(rgba(109,40,217,.05) 1px, transparent 1px) 0 0 / 22px 22px;
-    }
-    @keyframes monGlow { 0%, 100% { box-shadow: inset 0 -12px 24px -18px rgba(109,40,217,.55); } 50% { box-shadow: inset 0 -12px 24px -10px rgba(109,40,217,.95); } }
-    .mon-ecg { position: absolute; inset: 0; width: 200%; height: 100%; display: block; z-index: 2; animation: monScroll 5s linear infinite; }
-    .mon-trace { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
-    @keyframes monScroll { to { transform: translateX(-50%); } }
-    .vitals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
-    .vital { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 9px 11px; background: var(--paper); }
-    .vital .vlabel { display: block; font-size: .55rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-    .vital .vval { font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em; color: var(--ink); font-variant-numeric: tabular-nums; transition: color .25s, transform .25s var(--ease); display: inline-block; margin-top: 3px; }
-    .vital .vval.flash { color: var(--accent); transform: translateY(-1px); }
-    .vital .vunit { font-size: .56rem; color: var(--faint); margin-left: 3px; font-weight: 500; }
-
     /* Respect reduced-motion for the new layer */
     @media (prefers-reduced-motion: reduce) {
-      .mon-ecg, .mon-screen { animation: none !important; }
       .btn-primary::after { display: none; }
       .sched-col.items-in .sched-item, .sched-col.show-anim { animation: none !important; }
-      .mon-status .d { animation: none !important; }
+    }
+
+    /* Free-tickets / game panel (hero) */
+    .game-panel .game-title { font-size: 1.28rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 12px; }
+    .game-panel .game-sub { font-size: .85rem; color: var(--ink-2); margin-top: 7px; }
+    .game-panel .game-sub b { color: var(--ink); font-weight: 700; }
+    .game-panel .btn-game { margin-top: 16px; width: 100%; justify-content: center; }
+    .game-panel .btn-game svg { width: 16px; height: 16px; }
+
+    /* Photo gallery */
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 44px; }
+    .gallery-item { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); aspect-ratio: 4 / 3; background: var(--paper-2); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s var(--ease); }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-item .cap { position: absolute; inset: auto 0 0 0; padding: 34px 16px 14px; color: #fff; font-weight: 600; font-size: .9rem; letter-spacing: -0.01em; background: linear-gradient(transparent, rgba(11,13,16,.82)); }
+    .gallery-item .cap .mono { display: block; font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.65); font-weight: 600; margin-bottom: 3px; }
+
+    /* NCS logo sits on a dark plate (its artwork is white) */
+    .org-logo-plate { display: inline-flex; align-items: center; justify-content: center; background: var(--ink); border-radius: 12px; padding: 13px 18px; margin-bottom: 18px; }
+    .org-logo-plate .org-logo-img { height: 40px; margin-bottom: 0; }
+
+    /* Mobile: schedule shows a single day via the selector — hide the "All" chip */
+    @media (max-width: 760px) {
+      .sched-tab--all { display: none; }
     }
 
     /* ── Responsive ── */
@@ -535,6 +543,7 @@
     <a href="#organisers">About</a>
   </div>
   <div class="nav-right">
+    <a href="#" class="btn btn-outline btn-sm">Log in</a>
     <a href="https://luma.com/mlai-8obe" target="_blank" rel="noopener noreferrer" class="btn btn-dark btn-sm">Get tickets</a>
     <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
@@ -548,6 +557,7 @@
   <a href="#schedule" onclick="toggleMenu()">Schedule</a>
   <a href="#faq" onclick="toggleMenu()">FAQ</a>
   <a href="#organisers" onclick="toggleMenu()">About</a>
+  <a href="#" class="btn btn-outline" onclick="toggleMenu()">Log in</a>
   <a href="https://luma.com/mlai-8obe" target="_blank" rel="noopener noreferrer" class="btn btn-primary" onclick="toggleMenu()">Get tickets</a>
 </div>
 
@@ -580,35 +590,25 @@
         </div>
       </div>
       <div class="panel prize-panel reveal" data-delay="3">
-        <div><div class="tag mono">Prize pool</div><div class="amt mono">$15K+</div></div>
-        <div class="d">OpenAI credits for top 3 · ChatGPT Pro for top 5</div>
+        <div class="prize-top">
+          <span class="tag mono">Prize pool</span>
+          <span class="trophy" aria-hidden="true"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0"/></svg></span>
+        </div>
+        <div class="amt mono">$15K<small>+</small></div>
+        <div class="prize-breaks">
+          <div class="prize-break"><span class="pill-ico">🥇</span><span>Top 3 teams — <b>OpenAI API credits</b></span></div>
+          <div class="prize-break"><span class="pill-ico">⭐</span><span>Top 5 teams — <b>ChatGPT Pro, 1 year</b></span></div>
+        </div>
       </div>
-      <div class="panel monitor reveal" data-delay="4">
-        <div class="panel-top"><span class="tag mono">AI Hospital · live vitals</span><span class="mon-status mono"><span class="d"></span>Monitoring</span></div>
-        <div class="mon-screen">
-          <svg class="mon-ecg" viewBox="0 0 2400 120" preserveAspectRatio="none" aria-hidden="true"><path class="mon-trace" d="M0,60"/></svg>
-        </div>
-        <div class="vitals">
-          <div class="vital"><span class="vlabel">HR</span><span class="vval mono" id="v-hr">72</span><span class="vunit mono">bpm</span></div>
-          <div class="vital"><span class="vlabel">SpO₂</span><span class="vval mono" id="v-spo2">98</span><span class="vunit mono">%</span></div>
-          <div class="vital"><span class="vlabel">BP</span><span class="vval mono" id="v-bp">118/76</span><span class="vunit mono">mmHg</span></div>
-        </div>
+      <div class="panel game-panel reveal" data-delay="4">
+        <div class="panel-top"><span class="tag mono">Play to win</span><span class="live"><span class="b"></span>Free tickets</span></div>
+        <div class="game-title">Want free tickets?</div>
+        <p class="game-sub">Beat our mini-game for a shot at a <b>free ticket</b> to HealthHack Sydney.</p>
+        <a href="#" class="btn btn-primary btn-game">Play game <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"/></svg></a>
       </div>
     </div>
   </div>
 </section>
-
-<!-- TICKET BAR -->
-<div class="ticket-bar">
-  <div class="container">
-    <div class="tb-text">
-      <p>One hackathon ticket covers both tracks on 18–19 July. The 17 July networking night is a separate, optional add-on.</p>
-      <p class="fine">Early-bird $64.79 · Late-bird $96.40 · Students 70% off with code <strong>IAMSTUDENT</strong></p>
-    </div>
-    <a href="https://luma.com/mlai-8obe" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Hackathon tickets</a>
-    <a href="https://luma.com/mlai-8obe" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">Pre-Hack networking · $5</a>
-  </div>
-</div>
 
 <!-- ABOUT EVENT -->
 <section id="about-event">
@@ -672,7 +672,7 @@
       <h2 class="section-title">The <span class="g">weekend.</span></h2>
     </div>
     <div class="sched-tabs reveal" role="tablist" aria-label="Filter schedule by day">
-      <button type="button" class="sched-tab active" data-day="all">All</button>
+      <button type="button" class="sched-tab sched-tab--all active" data-day="all">All</button>
       <button type="button" class="sched-tab" data-day="fri">Fri 17 · Pre-Hack</button>
       <button type="button" class="sched-tab" data-day="sat">Sat 18 · Day 1</button>
       <button type="button" class="sched-tab" data-day="sun">Sun 19 · Day 2 + Pitch</button>
@@ -831,6 +831,23 @@
   </div>
 </section>
 
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="head mb-head reveal">
+      <span class="sec-num mono">Gallery <span class="sl">/</span> A look inside</span>
+      <h2 class="section-title">The energy <span class="g">in the room.</span></h2>
+      <p class="section-lead">Straight from past MLAI &amp; UNSW No Code Society events — the building, the pitching, the judging, and the moment it all pays off.</p>
+    </div>
+    <div class="gallery-grid">
+      <figure class="gallery-item reveal" data-delay="1"><img src="hacking.jpg" alt="Participants building together at laptops" loading="lazy" /><figcaption class="cap"><span class="mono">01 · Build</span>Heads down, shipping</figcaption></figure>
+      <figure class="gallery-item reveal" data-delay="2"><img src="pitching.jpg" alt="Teams presenting to a full room on pitch night" loading="lazy" /><figcaption class="cap"><span class="mono">02 · Pitch</span>A full-house pitch night</figcaption></figure>
+      <figure class="gallery-item reveal" data-delay="3"><img src="judges.JPG" alt="Industry judges scoring the pitches" loading="lazy" /><figcaption class="cap"><span class="mono">03 · Judge</span>Judged by industry experts</figcaption></figure>
+      <figure class="gallery-item reveal" data-delay="4"><img src="winners.JPG" alt="Winning team holding a trophy and certificate" loading="lazy" /><figcaption class="cap"><span class="mono">04 · Win</span>Trophies on the line</figcaption></figure>
+    </div>
+  </div>
+</section>
+
 <!-- SPONSORS -->
 <section class="bg-alt" id="sponsors">
   <div class="container">
@@ -846,7 +863,6 @@
       <div class="sponsor-box tba">Sponsor TBA</div>
       <div class="sponsor-box tba">Sponsor TBA</div>
     </div>
-    <p class="sponsor-note reveal">Interested in sponsoring? <a href="https://luma.com/mlai-8obe" target="_blank" rel="noopener noreferrer">Reach out via our event page →</a></p>
   </div>
 </section>
 
@@ -1026,7 +1042,7 @@
       <div class="org-card reveal" data-delay="1">
         <div class="org-accent"></div>
         <div class="org-body">
-          <img class="org-logo-img" src="ncs.png" alt="UNSW No Code Society logo" />
+          <span class="org-logo-plate"><img class="org-logo-img" src="ncs.png" alt="UNSW No Code Society logo" /></span>
           <h3>UNSW No Code Society</h3>
           <p>A student-led organisation empowering the next generation of builders, makers and innovators. We run workshops, hackathons and networking events that help anyone — regardless of technical background — learn to build products and solve problems with modern tools. HealthHack Sydney is our flagship event.</p>
         </div>
@@ -1190,37 +1206,6 @@
   tick();
   setInterval(tick, 1000);
 
-  // ── Live vitals monitor: build a seamless scrolling ECG waveform ──
-  (function () {
-    var path = document.querySelector('.mon-trace');
-    if (!path) return;
-    // One heartbeat spans 200 units on a 2400-wide viewBox (12 beats); the
-    // pattern repeats every 200 so a -50% (1200u) translate loops seamlessly.
-    function beat(x) {
-      return 'L' + (x + 60) + ',60 L' + (x + 74) + ',56 L' + (x + 84) + ',60 L' + (x + 93) + ',60 ' +
-             'L' + (x + 98) + ',66 L' + (x + 102) + ',22 L' + (x + 108) + ',94 L' + (x + 113) + ',60 ' +
-             'L' + (x + 132) + ',60 L' + (x + 152) + ',53 L' + (x + 170) + ',60 L' + (x + 200) + ',60 ';
-    }
-    var d = 'M0,60 ';
-    for (var i = 0; i < 12; i++) { d += beat(i * 200); }
-    path.setAttribute('d', d);
-  })();
-
-  // ── Live vitals: gently drifting readouts ──
-  (function () {
-    var hr = document.getElementById('v-hr'),
-        sp = document.getElementById('v-spo2'),
-        bp = document.getElementById('v-bp');
-    if (!hr || reduce) return;
-    function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-    function flash(el) { el.classList.add('flash'); setTimeout(function () { el.classList.remove('flash'); }, 500); }
-    setInterval(function () {
-      hr.textContent = rnd(66, 86); flash(hr);
-      sp.textContent = rnd(96, 99); flash(sp);
-      bp.textContent = rnd(112, 124) + '/' + rnd(72, 80); flash(bp);
-    }, 1900);
-  })();
-
   // ── Schedule: staggered "printout" of each day's items on scroll ──
   if (!reduce && 'IntersectionObserver' in window) {
     var schedItemObs = new IntersectionObserver(function (entries) {
@@ -1235,39 +1220,74 @@
     document.querySelectorAll('.sched-col').forEach(function (c) { schedItemObs.observe(c); });
   }
 
-  // ── Schedule: interactive day filter ──
+  // ── Schedule: interactive day filter (mobile shows one day at a time) ──
   (function () {
     var grid = document.querySelector('.sched-grid');
     var tabs = [].slice.call(document.querySelectorAll('.sched-tab'));
     if (!grid || !tabs.length) return;
     var cols = [].slice.call(grid.querySelectorAll('.sched-col'));
-    tabs.forEach(function (tab) {
-      tab.addEventListener('click', function () {
-        var day = tab.dataset.day;
-        tabs.forEach(function (t) { t.classList.remove('active'); });
-        tab.classList.add('active');
-        if (day === 'all') {
-          grid.classList.remove('filtered');
-          cols.forEach(function (c) { c.classList.remove('hide'); });
-          return;
-        }
-        grid.classList.add('filtered');
-        cols.forEach(function (c) {
-          var match = c.dataset.day === day;
-          c.classList.toggle('hide', !match);
-          if (match && !reduce) { c.classList.remove('show-anim'); void c.offsetWidth; c.classList.add('show-anim'); }
-        });
+    function activate(day, animate) {
+      tabs.forEach(function (t) { t.classList.toggle('active', t.dataset.day === day); });
+      if (day === 'all') {
+        grid.classList.remove('filtered');
+        cols.forEach(function (c) { c.classList.remove('hide'); });
+        return;
+      }
+      grid.classList.add('filtered');
+      cols.forEach(function (c) {
+        var match = c.dataset.day === day;
+        c.classList.toggle('hide', !match);
+        if (match && animate && !reduce) { c.classList.remove('show-anim'); void c.offsetWidth; c.classList.add('show-anim'); }
       });
+    }
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () { activate(tab.dataset.day, true); });
     });
+    // On narrow screens the "All" chip is hidden — default to a single day.
+    var mq = window.matchMedia('(max-width: 760px)');
+    function enforce() {
+      var active = document.querySelector('.sched-tab.active');
+      var day = active ? active.dataset.day : 'all';
+      if (mq.matches && day === 'all') { activate('sat', false); }
+    }
+    if (mq.addEventListener) { mq.addEventListener('change', enforce); } else if (mq.addListener) { mq.addListener(enforce); }
+    enforce();
   })();
 
-  // ── FAQ: single-open accordion behaviour ──
+  // ── FAQ: smooth accordion — any number can stay open ──
   (function () {
     var items = [].slice.call(document.querySelectorAll('.faq-item'));
-    items.forEach(function (item) {
-      item.addEventListener('toggle', function () {
-        if (!item.open) return;
-        items.forEach(function (other) { if (other !== item) other.open = false; });
+    items.forEach(function (details) {
+      var summary = details.querySelector('summary');
+      var answer = details.querySelector('.answer');
+      if (!summary || !answer) return;
+      // Wrap the answer content so its height (incl. padding) animates cleanly.
+      var inner = document.createElement('div');
+      inner.className = 'answer-inner';
+      while (answer.firstChild) { inner.appendChild(answer.firstChild); }
+      answer.appendChild(inner);
+      if (details.open) { details.classList.add('expanded'); }
+      var animating = false;
+      var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+      summary.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (animating) return;
+        if (reduce) { details.open = !details.open; details.classList.toggle('expanded', details.open); return; }
+        if (details.open) {
+          animating = true;
+          details.classList.remove('expanded');
+          var start = answer.offsetHeight;
+          var a = answer.animate([{ height: start + 'px' }, { height: '0px' }], { duration: 300, easing: EASE });
+          a.onfinish = a.oncancel = function () { details.open = false; answer.style.height = ''; animating = false; };
+        } else {
+          details.open = true;
+          answer.style.height = '0px';
+          details.classList.add('expanded');
+          var end = inner.offsetHeight;
+          animating = true;
+          var b = answer.animate([{ height: '0px' }, { height: end + 'px' }], { duration: 360, easing: EASE });
+          b.onfinish = b.oncancel = function () { answer.style.height = ''; animating = false; };
+        }
       });
     });
   })();
