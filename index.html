@@ -304,11 +304,12 @@
     .audience-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
 
     /* ── Sponsors ── */
-    .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; max-width: 840px; margin: 44px auto 0; }
-    .sponsor-box { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 100px; padding: 24px 22px; border-radius: var(--radius); background: var(--ink); border: 1px solid #23262c; font-weight: 700; font-size: 1.02rem; color: #fff; transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
-    .sponsor-box:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 22px 46px -30px rgba(109,40,217,.6); }
-    .sponsor-box.tba { color: rgba(255,255,255,.5); font-style: normal; font-weight: 700; font-size: 1.02rem; }
-    .sponsor-logo { max-height: 56px; max-width: 78%; width: auto; object-fit: contain; display: block; }
+    .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; max-width: 860px; margin: 44px auto 0; }
+    .sponsor { margin: 0; }
+    .sponsor-box { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 134px; padding: 26px 22px; border-radius: var(--radius); background: var(--paper); border: 1px solid var(--line); transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
+    .sponsor-box:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 22px 46px -30px rgba(109,40,217,.4); }
+    .sponsor-logo { max-height: 70px; max-width: 80%; width: auto; object-fit: contain; display: block; }
+    .sponsor-name { margin-top: 15px; text-align: center; font-weight: 700; font-size: clamp(1.2rem, 2vw, 1.45rem); letter-spacing: -0.02em; color: var(--ink); }
     .sponsor-note { text-align: center; margin-top: 34px; color: var(--muted); font-size: 0.9rem; }
     .sponsor-note a { color: var(--accent); font-weight: 600; text-decoration: none; }
     .sponsor-note a:hover { text-decoration: underline; }
@@ -856,12 +857,18 @@
       <h2 class="section-title">Supported <span class="g">by.</span></h2>
     </div>
     <div class="sponsor-grid reveal">
-      <div class="sponsor-box"><img class="sponsor-logo" src="base44.png" alt="Base44" /></div>
-      <div class="sponsor-box"><img class="sponsor-logo" src="codex.png" alt="Codex by OpenAI" /></div>
-      <div class="sponsor-box"><img class="sponsor-logo" src="stone-chalk.png" alt="Stone &amp; Chalk" /></div>
-      <div class="sponsor-box">UNSW</div>
-      <div class="sponsor-box tba">Sponsor TBA</div>
-      <div class="sponsor-box tba">Sponsor TBA</div>
+      <figure class="sponsor">
+        <div class="sponsor-box"><img class="sponsor-logo" src="base44.png" alt="Base44 logo" /></div>
+        <figcaption class="sponsor-name">Base44</figcaption>
+      </figure>
+      <figure class="sponsor">
+        <div class="sponsor-box"><img class="sponsor-logo" src="codex.png" alt="Codex logo" /></div>
+        <figcaption class="sponsor-name">Codex</figcaption>
+      </figure>
+      <figure class="sponsor">
+        <div class="sponsor-box"><img class="sponsor-logo" src="stone-chalk.png" alt="Stone &amp; Chalk logo" /></div>
+        <figcaption class="sponsor-name">Stone &amp; Chalk</figcaption>
+      </figure>
     </div>
   </div>
 </section>
